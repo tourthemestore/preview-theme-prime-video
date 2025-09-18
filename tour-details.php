@@ -19,9 +19,9 @@ if ($slug) {
 
 $sq_package = mysqli_fetch_assoc(mysqlQuery("select * from custom_package_master where package_id = '$package_id'"));
 
-$sq_curr = mysqli_fetch_assoc(mysqlQuery("select * from currency_name_master where id=$sq_package[currency_id]"));
+$sq_curr = mysqli_fetch_assoc(mysqlQuery("select * from currency_name_master where id='$sq_package[currency_id]'"));
 
-$sq_destination = mysqli_fetch_assoc(mysqlQuery("select * from destination_master where dest_id=$sq_package[dest_id]"));
+$sq_destination = mysqli_fetch_assoc(mysqlQuery("select * from destination_master where dest_id='$sq_package[dest_id]'"));
 
 $sq_package_program = mysqlQuery("select * from custom_package_program where package_id = '$package_id'");
 

@@ -112,7 +112,7 @@ global $app_contact_no;
 
                         </span>
 
-                        <a href="<?= $app_contact_no ?>" class="ts-contact-info-link"><?= $app_contact_no ?></a>
+                        <a href="<?= 'tel:'.$app_contact_no ?>" class="ts-contact-info-link"><?= $app_contact_no ?></a>
 
                     </li>
 
