@@ -13,8 +13,8 @@ $to_currency_rate = $sq_to['currency_rate'];
 
 $checkDate = date('d M Y', strtotime($activity_array[0]->checkDate));
 $date1 = date("Y-m-d", strtotime($activity_array[0]->checkDate));
-$child_count = isset($activity_array[0]->child) ? $activity_array[0]->child : 0;
-$infant_count = isset($activity_array[0]->infant) ? $activity_array[0]->infant : 0;
+$child_count = isset($activity_array[0]->child) && !is_null($activity_array[0]->child) ? (int)$activity_array[0]->child : 0;
+$infant_count = isset($activity_array[0]->infant) && !is_null($activity_array[0]->infant) ? (int)$activity_array[0]->infant : 0;
 $pax = (int)$activity_array[0]->adult + (int)$child_count + (int)$infant_count;
 
 $city_id = isset($activity_array[0]->activity_city_id) ? $activity_array[0]->activity_city_id : '';
@@ -402,13 +402,13 @@ if ($activities_id != '') {
 
                           <select name="child" id='child' class="full-width">
 
-                            <option value='<?= $activity_array[0]->child ?>'><?= $activity_array[0]->child ?></option>
+                            <option value='<?= $child_count ?>'><?= $child_count ?></option>
 
                             <?php
 
                             for ($m = 0; $m <= 20; $m++) {
 
-                              if ($m != $activity_array[0]->child) {
+                              if ($m != $child_count) {
 
                             ?>
 
@@ -439,13 +439,13 @@ if ($activities_id != '') {
 
                           <select name="infant" id='infant' class="full-width">
 
-                            <option value='<?= $activity_array[0]->infant ?>'><?= $activity_array[0]->infant ?></option>
+                            <option value='<?= $infant_count ?>'><?= $infant_count ?></option>
 
                             <?php
 
                             for ($m = 0; $m <= 20; $m++) {
 
-                              if ($m != $activity_array[0]->infant) {
+                              if ($m != $infant_count) {
 
                             ?>
 

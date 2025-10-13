@@ -865,9 +865,9 @@ if (count($team_array) > 0) {
       foreach ($gallary_array as $item) {
       ?>
         <div class="card-image">
-          <a id="lightGalleryImage" class="light-gallery-item" title="<?= $item['dest_name']; ?>">
+          <!-- <a id="lightGalleryImage" class="light-gallery-item" title="<?= $item['dest_name']; ?>"> -->
             <img src="<?= $item['image_url'] ?>" alt="photo" class="img-fluid" style="height: 168px;;" title="<?= $item['dest_name']; ?>" />
-          </a>
+          <!-- </a> -->
         </div>
       <?php } ?>
     </div>
