@@ -1,4 +1,4 @@
-    <?php
+<?php
     class ThemeData
     {
 
@@ -434,7 +434,6 @@
             return $data;
         }
 
-
         public function getPopularActivities()
         {
             $setData = mysqli_fetch_assoc(mysqli_query($this->connection, "SELECT popular_activities FROM b2c_settings LIMIT 1"));
@@ -451,7 +450,7 @@
                 $activities[] = $data;
             }
 
-
+            $date1 = date('Y-m-d');
             $selectedActivities = [];
             $citydata = [];
             $imagesdata = [];
@@ -460,16 +459,24 @@
 
                     if ($act->exc_id == $main['entry_id']) {
 
-                        $basic = mysqli_fetch_object(mysqli_query($this->connection, "SELECT adult_cost FROM excursion_master_tariff_basics where exc_id='" . $main['entry_id'] . "' ORDER BY entry_id DESC LIMIT 1"));
-                        // currency conversion for cost
-                        $row = mysqli_fetch_assoc(mysqli_query($this->connection, "SELECT currency_rate FROM roe_master where currency_id = '$main[currency_code]'"));
-                        if ($row && $row['currency_rate']) {
-                            $act_price = 1 / $row['currency_rate'] * $basic->adult_cost;
-                            $pricing = ($act_price);
+                        $basic = mysqli_fetch_object(mysqli_query($this->connection, "SELECT adult_cost FROM excursion_master_tariff_basics where exc_id='" . $main['entry_id'] . "' and (from_date <='$date1' and to_date>='$date1') ORDER BY entry_id DESC LIMIT 1"));
+
+                        // Check if basic tariff data exists
+                        if ($basic && $basic->adult_cost) {
+                            // currency conversion for cost
+                            $row = mysqli_fetch_assoc(mysqli_query($this->connection, "SELECT currency_rate FROM roe_master where currency_id = '$main[currency_code]'"));
+                            if ($row && $row['currency_rate']) {
+                                $act_price = 1 / $row['currency_rate'] * $basic->adult_cost;
+                                $pricing = ($act_price);
+                            } else {
+                                $pricing = $basic->adult_cost;
+                            }
+                            $basic->adult_cost = $pricing;
                         } else {
-                            $pricing = $basic->adult_cost;
+                            // Create basic object with "On Req" if no tariff found
+                            $basic = new stdClass();
+                            $basic->adult_cost = 'On Req';
                         }
-                        $basic->adult_cost = $pricing;
 
                         $resultimage = mysqli_query($this->connection, "SELECT * FROM  excursion_master_images where exc_id ='" . $main['entry_id'] . "'");
                         while ($dataactivity = mysqli_fetch_array($resultimage)) {
@@ -484,13 +491,12 @@
 
                         $getqueryimage = mysqli_fetch_object(mysqli_query($this->connection, "SELECT image_url FROM excursion_master_images where exc_id='" . $main['entry_id'] . "' ORDER BY entry_id DESC LIMIT 1"));
 
-
                         $main['basics'] = $basic;
                         $main['images'] = $imagesdata;
                         $imgUrl = (!empty($getqueryimage->image_url)) ? "cms/" . $getqueryimage->image_url : $this->b2cBaseUrl . 'images/activity_default.png';
                         $main['main_img_url'] = $this->filterImgUrl($imgUrl);
 
-                        $datacity = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM  city_master where city_id ='" . $main['city_id'] . "'"));
+                        $datacity = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM city_master where city_id ='" . $main['city_id'] . "'"));
 
                         $main['city_details'] =  [
                             'city_id' => $datacity['city_id'],
@@ -703,11 +709,14 @@
 
         public function convertCurrency($amountInInr, $toCurrencyId)
         {
+            $amountInInr = (float)$amountInInr;
+            $toCurrencyId = (int)$toCurrencyId;
+
             $query = mysqli_query($this->connection, "SELECT * FROM roe_master where currency_id = $toCurrencyId");
             $row = mysqli_fetch_assoc($query);
             if ($row && $row['currency_rate']) {
-
-                $newValue = number_format(floor($amountInInr * $row['currency_rate']));
+                $currencyRate = (float)$row['currency_rate'];
+                $newValue = number_format(floor($amountInInr * $currencyRate));
                 return $this->getCurrencySymbol($toCurrencyId) . ' ' . $newValue;
             }
 

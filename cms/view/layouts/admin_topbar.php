@@ -7,10 +7,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 
 <!--******Logo Wrap*****-->
 <div class="logo_wrap hidden-xs">
-  <a href="<?php echo BASE_URL ?>view/dashboard/dashboard_main.php"><img src="<?php echo $admin_logo_url ?>" /></a>
+  <a href="<?php echo BASE_URL ?>view/app_settings/index.php"><img src="<?php echo $admin_logo_url ?>" /></a>
 </div>
 <div class="small_logo_wrap visible-xs">
-  <a href="<?php echo BASE_URL ?>view/dashboard/dashboard_main.php"><img src="<?php echo $circle_logo_url ?>" /></a>
+  <a href="<?php echo BASE_URL ?>view/app_settings/index.php"><img src="<?php echo $circle_logo_url ?>" /></a>
 </div>
 <button class="btn btn-sm sidebar_toggle_btn app_btn_out"><i class="fa fa-bars" aria-hidden="true"></i></button>
 

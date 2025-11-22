@@ -77,7 +77,7 @@ include 'layouts/header.php'; //Include header
                   <span class="fw-medium">Hotel</span>
                 </button>
               </li>
-              <li class="nav-item" role="presentation">
+              <!-- <li class="nav-item" role="presentation">
                 <button
                   class="nav-link filterButton fs-7"
                   id="flight-tab"
@@ -90,7 +90,7 @@ include 'layouts/header.php'; //Include header
                   <i class="fa-solid fa-plane-departure me-2 fs-8"></i>
                   <span class="fw-medium">Flight</span>
                 </button>
-              </li>
+              </li> -->
 
               <li class="nav-item" role="presentation">
                 <button
@@ -123,14 +123,14 @@ include 'layouts/header.php'; //Include header
             </ul>
             <div class="tab-content" id="myTabContent">
               <!-- ***** Flight ***** -->
-              <div
+              <!-- <div
                 class="tab-pane fade"
                 id="flight-tab-pane"
                 role="tabpanel"
                 aria-labelledby="flight-tab"
                 tabindex="0">
-                <?php include 'view/flight/flight-search.php'; ?>
-              </div>
+                <?php //include 'view/flight/flight-search.php'; ?>
+              </div> -->
               <!-- ***** Flight End ***** -->
 
               <!-- ***** Hotel ***** -->
@@ -254,6 +254,64 @@ if ($popularPackages && count($popularPackages) > 0) {
   </section>
 <?php } ?>
 <!-- ***** Trending Tours Slider Section End ***** -->
+
+<?php
+$popularActivities = $themeData->getPopularActivities();
+if ($popularActivities && count($popularActivities) > 0) {
+?>
+  <!-- ***** Activities Slider Section ***** -->
+  <section class="c-section">
+    <div class="container-lg">
+      <div class="row align-items-center">
+        <div class="col-12">
+          <h2 class="heading">Popular Activities</h2>
+
+          <!-- *** Card Slider *** -->
+          <div class="owl-carousel c-slider oddEven js-activities">
+            <?php foreach ($popularActivities as $activity) :
+              $adultCost = $activity['basics']->adult_cost ?? 0;
+              $pricing = ($activity['basics']->adult_cost && $activity['basics']->adult_cost !== 'On Req')
+                ? $themeData->convertCurrency($activity['basics']->adult_cost, $currency)
+                : $activity['basics']->adult_cost;
+            ?>
+              <!-- Card -->
+              <div class="card c-card" title="<?php echo $activity['excursion_name'];  ?>">
+                <div class="card-image">
+                  <img src="<?php echo $activity['main_img_url']; ?>" alt="<?php echo $activity['excursion_name']; ?>" />
+                  <span class="title text-uppercase"><?php echo $activity['duration'] ? $activity['duration'] : 'NA'; ?></span>
+                </div>
+                <div class="card-body">
+                  <h5 class="mb-2 fs-6 color-primary fw-bolder">
+                    <?php
+                    if ((strlen($activity['excursion_name']) > 25))
+                      echo substr($activity['excursion_name'], 0, length: 25) . "...";
+                    else
+                      echo $activity['excursion_name'];
+                    ?>
+                  </h5>
+                  <span class="fs-6 text-secondary d-block mb-3">
+                    Price Per Person
+                  </span>
+                  <div class="d-flex align-items-center gap-3 mb-1">
+                    <span class="fs-5 fw-bold text-dark"><?php echo $pricing; ?>
+                      <sup class="fs-6 text-secondary">*</sup></span>
+                  </div>
+                  <span class="d-block mb-2 fw-medium fs-7 color-secondary"><i class="fa-solid fa-location-dot me-1"></i> <?php echo $activity['city_details']['city_name']; ?></span>
+                  <a class="c-button btn fs-7" onclick="get_act_listing_page('<?php echo $activity['entry_id']; ?>')">
+                    View Details
+                  </a>
+                </div>
+              </div>
+              <!-- Card End -->
+            <?php endforeach; ?>
+          </div>
+          <!-- *** Card Slider End *** -->
+        </div>
+      </div>
+    </div>
+  </section>
+<?php } ?>
+<!-- ***** Activities Slider Section End ***** -->
 
 <?php
 $excitingGroupTours = $themeData->getPopularGroupTours();

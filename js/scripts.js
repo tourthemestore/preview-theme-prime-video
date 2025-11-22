@@ -51,6 +51,41 @@ $(document).ready(function () {
       },
     });
   }
+
+
+  // ! Activities slider
+  if ($(".js-activities").length) {
+    $(".js-activities").owlCarousel({
+      items: 4,
+      nav: true,
+      dots: false,
+      margin: 24,
+      autoplay: true,
+      autoplayTimeout: 5000,
+      autoplayHoverPause: true,
+      navText: [
+        '<i class="fa-solid fa-arrow-left-long"></i>',
+        '<i class="fa-solid fa-arrow-right-long"></i>',
+      ],
+      responsive: {
+        0: {
+          items: 1,
+        },
+        480: {
+          items: 1,
+        },
+        768: {
+          items: 2,
+        },
+        960: {
+          items: 3,
+        },
+        1024: {
+          items: 4,
+        },
+      },
+    });
+  }
 // ! Trending groupTours slider
   if ($(".js-groupTours").length) {
     $(".js-groupTours").owlCarousel({
@@ -349,6 +384,37 @@ function multicityrenderInputs(multicityIndex) {
             minDate: new Date() // Disable past dates
           });
     }
+  }
+
+  function get_act_listing_page(activity_id){
+  
+    var base_url = $('#crm_base_url').val();
+    var b2c_base_url = $('#base_url').val();
+    var activity_array = [];
+  
+    var today = new Date();
+    today.setDate(today.getDate());
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    if (day < 10) {
+        day = '0' + day;
+    }
+    if (month < 10) {
+        month = '0' + month;
+    }
+    var today_date = month + "/" + day + "/" + year;
+    activity_array.push({
+        'activity_city_id': '',
+        'activities_id': activity_id,
+        'checkDate': today_date,
+        'adult': parseInt(1),
+        'child': parseInt(0),
+        'infant': parseInt(0)
+    });
+    $.post(base_url + 'controller/b2b_excursion/b2b/search_session_save.php', { activity_array: activity_array }, function(data) {
+        window.location.href = b2c_base_url + 'view/activities/activities-listing.php';
+    });
   }
 
 function get_tours_data(dest_id, type) {
