@@ -5581,7 +5581,7 @@ align-items: baseline;
 
 .top-header .main-menu > ul > li > a {
 
-font-size: 14px;
+font-size: 16px;
 
 color: #555555;
 
@@ -10616,7 +10616,7 @@ padding: 0;
 
 .main-menu ul ul li a {
 
-font-size: 12px;
+font-size: 14px;
 
 color: #555;
 
@@ -11421,6 +11421,54 @@ margin-bottom: 0 !important;
 
 }
 
+.custom_texteditor {
+
+height: auto !important;
+
+max-height: none !important;
+
+overflow: visible !important;
+
+word-wrap: break-word;
+
+display: block !important;
+
+}
+
+.custom_texteditor p,
+
+.custom_texteditor div,
+
+.custom_texteditor li {
+
+height: auto !important;
+
+max-height: none !important;
+
+overflow: visible !important;
+
+text-overflow: clip !important;
+
+display: block !important;
+
+white-space: normal !important;
+
+}
+
+.custom_texteditor span {
+
+display: inline !important;
+
+height: auto !important;
+
+max-height: none !important;
+
+overflow: visible !important;
+
+white-space: normal !important;
+
+}
+
 
 
 .c-alert {
@@ -11460,6 +11508,20 @@ outline: none !important;
 background-color: #f9f9f9;
 
 padding: 50px 0;
+
+height: auto !important;
+
+overflow: visible !important;
+
+}
+
+.c-containerDark .custom_texteditor {
+
+height: auto !important;
+
+max-height: none !important;
+
+overflow: visible !important;
 
 }
 

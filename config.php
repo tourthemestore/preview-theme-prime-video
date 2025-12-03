@@ -30,8 +30,8 @@ if (!$connection) {
 }
 
 
-define('BASE_URL', 'http://localhost/theme-prime-filter/cms/');
-define('BASE_URL_B2C', 'http://localhost/theme-prime-filter/');
+define('BASE_URL', 'http://localhost/preview-theme-prime-video/cms/');
+define('BASE_URL_B2C', 'http://localhost/preview-theme-prime-video/');
 mysqli_query($connection, "SET SESSION sql_mode = ''");
 
 

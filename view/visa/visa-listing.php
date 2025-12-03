@@ -166,6 +166,8 @@ if ($country_id != '') {
                         'visa_info' => $visa_info_arr
                     ));
                 }
+                $visa_results_array = mb_convert_encoding($visa_results_array, 'UTF-8', 'UTF-8');
+
                 ?>
                 <input type='hidden'
                     value='<?= json_encode($visa_results_array, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?>'
