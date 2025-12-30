@@ -942,3 +942,26 @@ if ($activities_id != '') {
   });
   get_price_filter_data('activity_result_array', 'price_filter_id', '0', '0', false);
 </script>
+<style>
+  /* Fix for View Details button clickability on mobile only */
+  @media (max-width: 768px) {
+    .priceTag .expandSect {
+      position: relative !important;
+      z-index: 999 !important;
+      pointer-events: auto !important;
+      display: inline-block !important;
+      min-height: 44px !important;
+      min-width: 44px !important;
+      touch-action: manipulation !important;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1) !important;
+      margin-top: 15px !important;
+    }
+  }
+  /* Ensure button is clickable on all devices */
+  .priceTag .expandSect {
+    pointer-events: auto !important;
+  }
+  .cardList-info[role="button"] .priceTag .expandSect {
+    pointer-events: auto !important;
+  }
+</style>

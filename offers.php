@@ -10,6 +10,8 @@ $_SESSION['page_type'] = 'Offers';
 $coupon_codes = $moduleData->getB2cSettings('coupon_codes');
 
 $coupon_codes = ($coupon_codes != '' && $coupon_codes != 'null') ? json_decode($coupon_codes) : [];
+// Ensure $coupon_codes is always an array, not null
+$coupon_codes = is_array($coupon_codes) ? $coupon_codes : [];
 
 ?>
 
@@ -87,7 +89,9 @@ $coupon_codes = ($coupon_codes != '' && $coupon_codes != 'null') ? json_decode($
         <div class="row">
 
             <?php
+            $offersFound = false;
 
+            if (!empty($coupon_codes) && is_array($coupon_codes)) {
             for ($i = 0; $i < sizeof($coupon_codes); $i++) {
 
 
@@ -98,6 +102,7 @@ $coupon_codes = ($coupon_codes != '' && $coupon_codes != 'null') ? json_decode($
 
                 if ($date < strtotime($valid_date)) {
 
+                    $offersFound = true;
                     $offer = '';
 
                     if ($coupon_codes[$i]->amount_in == 'Percentage') {
@@ -139,7 +144,19 @@ $coupon_codes = ($coupon_codes != '' && $coupon_codes != 'null') ? json_decode($
                     </div>
 
             <?php }
-            } ?>
+            }
+            }
+            
+            if (!$offersFound) {
+            ?>
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fa fa-gift fa-3x text-muted mb-3" aria-hidden="true"></i>
+                        <h4 class="text-muted">No Offers Available</h4>
+                        <p class="text-muted">Check back soon for exciting deals and offers!</p>
+                    </div>
+                </div>
+            <?php } ?>
 
         </div>
 

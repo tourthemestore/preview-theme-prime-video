@@ -377,7 +377,7 @@ while ($row_query = mysqli_fetch_assoc($sq_cms)) {
           <div class="flex-grow-1 pe-3">
             <!-- <span class="fs-8 d-block mb-1">Currency:</span> -->
             <div class="c-advanceSelect transparent">
-              <select class="js-advanceSelect full-width" name="state">
+              <select class="js-advanceSelect full-width" id="currency-mobile" name="currency" onchange="get_selected_currency()">
                 <?php foreach ($currencies as $item) { ?>
                   <option value='<?= $item['id'] ?>' <?= $currency == $item['id'] ? "selected" : ""; ?>><?= $item['currency_code'] ?></option>
                 <?php } ?>

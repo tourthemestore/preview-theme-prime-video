@@ -7,8 +7,6 @@ $_SESSION['page_type'] = 'enquiry';
 
 if ($type == '1' || $type == '2') {
 
-
-
     $package_id = $_POST['package_id'];
 
     $package_type = $_POST['package_type'];
@@ -1058,7 +1056,7 @@ if ($type == '1') {
 
                 <button type="submit" name="sb" value="btn_quot" id="btn_quot" class="btn btn-info w-33 width-100 mt-3 mt-md-0 mb-md-0" title="Download Quotation"><i class="fa fa-file-text-o" aria-hidden="true"></i> Download Quotation</button>
 
-                <button type="submit" name="sb" value="btn_book" id="btn_book" class="btn btn-success w-33 width-100" title="Book"><i class="fa fa-address-book" aria-hidden="true"></i> Book</button>
+                <button type="submit" name="sb" value="btn_book" id="btn_book" class="btn btn-success w-33 width-100 mt-3 mt-md-0 mb-md-0" title="Book"><i class="fa fa-address-book" aria-hidden="true"></i> Book</button>
 
             <?php } ?>
 

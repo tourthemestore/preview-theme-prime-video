@@ -1046,6 +1046,26 @@ $total_pax = intval($adults_count) + intval($child_wocount) + intval($cwb_count)
   .cardInfoLine::before {
     color: red !important;
   }
+
+  /* Fix for View Details button clickability on mobile only */
+  @media (max-width: 768px) {
+    .priceTag .expandSect {
+      position: relative !important;
+      z-index: 999 !important;
+      pointer-events: auto !important;
+      display: inline-block !important;
+      min-height: 44px !important;
+      min-width: 44px !important;
+      touch-action: manipulation !important;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1) !important;
+      margin-top: 15px !important;
+    }
+    
+    .divider.s2 {
+      position: relative;
+      z-index: 1;
+    }
+  }
 </style>
 <script>
   if ('<?= $tour_id ?>' == '') {

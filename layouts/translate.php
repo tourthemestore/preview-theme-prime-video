@@ -131,7 +131,12 @@ $sidebar_color = '#212529'; // Almost black (for clean UI)
 <script>
     $(document).ready(function() {
         $('#lang-select2').html($('#lang-select').html());
-        $('#lang-select, #lang-select2').select2();
+        
+        // Initialize desktop language dropdown only
+        $('#lang-select').select2();
+        
+        // Don't initialize mobile dropdown here - let scripts.js handle it when offcanvas opens
+        // This prevents conflicts and ensures proper dropdownParent setup
 
         $('.select2-container').attr('translate', 'no').addClass('notranslate');
 

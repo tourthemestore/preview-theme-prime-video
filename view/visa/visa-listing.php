@@ -136,8 +136,9 @@ if ($country_id != '') {
                     $total_cost_arr = array();
                     $country_name = addslashes($row_query['country_name']);
                     $country_code = addslashes($row_query['country_code']);
+                    $country_id = addslashes($row_query['country_id']);
 
-                    $sq_visa = mysqlQuery("SELECT * FROM `visa_crm_master` WHERE `country_id`='$country_name'");
+                    $sq_visa = mysqlQuery("SELECT * FROM `visa_crm_master` WHERE `country_id`='$country_name' AND status != 0");
                     while ($row_visa = mysqli_fetch_assoc($sq_visa)) {
 
                         $total_cost = (float)($row_visa['fees']) + (float)($row_visa['markup']);
@@ -152,19 +153,22 @@ if ($country_id != '') {
                             "upload_url2" => $row_visa['upload_url2'],
                         ));
                     }
-                    // $minValue = min($total_cost_arr);   //It is not working..
-                    foreach ($total_cost_arr as $cost) {
-                        if ($minValue === null || $cost < $minValue) {
-                            $minValue = $cost;
+                    // Only add country if it has at least one visa
+                    if (!empty($visa_info_arr)) {
+                        // $minValue = min($total_cost_arr);   //It is not working..
+                        foreach ($total_cost_arr as $cost) {
+                            if ($minValue === null || $cost < $minValue) {
+                                $minValue = $cost;
+                            }
                         }
+                        array_push($visa_results_array, array(
+                            "country_id" => $row_query['country_id'],
+                            "country_name" => $country_name,
+                            "country_code" => $country_code,
+                            "min_cost" => $minValue,
+                            'visa_info' => $visa_info_arr
+                        ));
                     }
-                    array_push($visa_results_array, array(
-                        "country_id" => $row_query['country_id'],
-                        "country_name" => $country_name,
-                        "country_code" => $country_code,
-                        "min_cost" => $minValue,
-                        'visa_info' => $visa_info_arr
-                    ));
                 }
                 $visa_results_array = mb_convert_encoding($visa_results_array, 'UTF-8', 'UTF-8');
 

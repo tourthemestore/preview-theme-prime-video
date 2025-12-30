@@ -2,6 +2,8 @@
 include '../../model/model.php';
 $query = mysqli_fetch_assoc(mysqlQuery("SELECT coupon_codes FROM `b2c_settings` where setting_id='1'"));
 $coupon_codes = ($query['coupon_codes'] != '' && $query['coupon_codes'] != 'null') ? json_decode($query['coupon_codes']) : [];
+// Ensure $coupon_codes is always an array, not null
+$coupon_codes = is_array($coupon_codes) ? $coupon_codes : [];
 ?>
 <form id="section_hotels">
     <legend>Define Coupon codes</legend>
@@ -20,7 +22,7 @@ $coupon_codes = ($query['coupon_codes'] != '' && $query['coupon_codes'] != 'null
             <div class="table-responsive">
                 <table id="tbl_coupons" name="tbl_coupons" class="table border_0 table-hover" style="width:1000px;">
                     <?php
-                    if (sizeof($coupon_codes) == 0) { ?>
+                    if (empty($coupon_codes) || !is_array($coupon_codes) || sizeof($coupon_codes) == 0) { ?>
                     <tr>
                         <td><input id="chk_coupon1" type="checkbox" checked></td>
                         <td><input maxlength="15" value="1" type="text" name="no" placeholder="Sr. No."
@@ -49,7 +51,7 @@ $coupon_codes = ($query['coupon_codes'] != '' && $query['coupon_codes'] != 'null
                     </script>
                     <?php
                     } else {
-
+                        if (!empty($coupon_codes) && is_array($coupon_codes)) {
                         for ($i = 0; $i < sizeof($coupon_codes); $i++) {
                         ?>
                     <tr>
@@ -83,6 +85,7 @@ $coupon_codes = ($query['coupon_codes'] != '' && $query['coupon_codes'] != 'null
                     });
                     </script>
                     <?php
+                        }
                         }
                     } ?>
                 </table>

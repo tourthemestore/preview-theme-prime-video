@@ -43,7 +43,7 @@ if (sizeof($hotel_results_array) > 0) {
                         <div class="discount-text">
                             <span class="currency-icon"></span>
                             <span class='offer-currency-price' id="offer-currency-price<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>"></span>
-                            <span class="ml-5px" id='discount_text<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>'></span>
+                            <span id='discount_text<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>'></span>
                             <span class='c-hide offer-currency-id' id="offer-currency-id<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>"></span>
                             <span class='c-hide offer-currency-flag' id="offer-currency-flag<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>"></span>
                         </div>
@@ -342,7 +342,7 @@ if (sizeof($hotel_results_array) > 0) {
                                             var offerPriceEl<?= $hotel_results_array[$hotel_i]['hotel_id'] ?> = document.getElementById("offer-currency-price<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>");
                                             var offerIcon<?= $hotel_results_array[$hotel_i]['hotel_id'] ?> = discountTextEl<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.querySelector('.currency-icon');
                                             var discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?> = document.getElementById("discount_text<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>");
-                                            
+
                                             if ('<?= $offer_price_flag ?>' === 'percentage') {
                                                 if (offerPriceEl<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>) {
                                                     offerPriceEl<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.display = 'none';
@@ -351,9 +351,9 @@ if (sizeof($hotel_results_array) > 0) {
                                                     offerIcon<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.display = 'none';
                                                 }
                                                 if (discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>) {
-                                                    discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.className = '';
-                                                    discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.marginLeft = '0';
-                                                    discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.display = 'inline-block';
+                                                    // discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.className = '';
+                                                    // discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.marginLeft = '0';
+                                                    // discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.display = 'inline-block';
                                                     discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.innerHTML = '<?= $offer_text ?>';
                                                 }
                                             } else {
@@ -365,9 +365,9 @@ if (sizeof($hotel_results_array) > 0) {
                                                     offerIcon<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.display = 'inline-block';
                                                 }
                                                 if (discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>) {
-                                                    discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.className = 'ml-5px';
+                                                    // discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.className = 'ml-5px';
                                                     discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.display = 'inline-block';
-                                                    discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.marginLeft = '5px';
+                                                    // discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.style.marginLeft = '3px';
                                                     discountTextSpan<?= $hotel_results_array[$hotel_i]['hotel_id'] ?>.innerHTML = '<?= $offer_text ?>';
                                                 }
                                             }
