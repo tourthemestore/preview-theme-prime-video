@@ -270,119 +270,56 @@ $(document).ready(function () {
   // Select 2 - Initialize only desktop dropdowns initially
   $(".js-advanceSelect").not('#lang-select2, #currency-mobile').select2();
   
-  // Fix Select2 in mobile offcanvas menu
-  // Don't initialize mobile dropdowns until offcanvas is shown
-  var mobileSelectsInitialized = false;
-  
+  // Initialize select2 for mobile dropdowns when offcanvas opens
   $('#mobileSidebar').on('shown.bs.offcanvas', function () {
-    // Destroy any existing instances first
-    $('#mobileSidebar .js-advanceSelect').each(function() {
-      if ($(this).data('select2')) {
-        $(this).select2('destroy');
+    var $offcanvasBody = $(this).find('.offcanvas-body');
+    
+    // Small delay to ensure offcanvas is fully rendered
+    setTimeout(function() {
+      // Initialize currency dropdown
+      var $currencyMobile = $('#currency-mobile');
+      if ($currencyMobile.length) {
+        // Destroy if already initialized to avoid conflicts
+        if ($currencyMobile.hasClass('select2-hidden-accessible')) {
+          $currencyMobile.select2('destroy');
+        }
+        $currencyMobile.select2({
+          dropdownParent: $offcanvasBody
+        });
       }
-    });
-    
-    // Initialize mobile language dropdown
-    if ($('#lang-select2').length) {
-      $('#lang-select2').select2({
-        dropdownParent: $('#mobileSidebar'),
-        minimumResultsForSearch: 0,
-        width: '100%'
-      });
-    }
-    
-    // Initialize mobile currency dropdown
-    if ($('#currency-mobile').length) {
-      $('#currency-mobile').select2({
-        dropdownParent: $('#mobileSidebar'),
-        minimumResultsForSearch: 0,
-        width: '100%'
-      });
-    }
-    
-    // Ensure search input is focusable and clickable
-    $('#mobileSidebar .js-advanceSelect').on('select2:open', function(e) {
-      var $select = $(this);
       
-      // Use multiple timeouts to ensure DOM is ready
-      setTimeout(function() {
-        var $dropdown = $('#mobileSidebar .select2-dropdown');
-        if (!$dropdown.length) {
-          $dropdown = $('.select2-dropdown').last();
+      // Initialize language dropdown
+      var $langSelect2 = $('#lang-select2');
+      if ($langSelect2.length) {
+        // Make sure it has options
+        if ($langSelect2.find('option').length === 0 && $('#lang-select').length) {
+          $langSelect2.html($('#lang-select').html());
         }
-        
-        var $searchField = $dropdown.find('.select2-search__field');
-        
-        if ($searchField.length && $searchField[0]) {
-          var searchInput = $searchField[0];
-          
-          // Remove any readonly attribute
-          searchInput.removeAttribute('readonly');
-          searchInput.readOnly = false;
-          searchInput.disabled = false;
-          
-          // Remove any pointer-events or z-index issues
-          $searchField.css({
-            'pointer-events': 'auto',
-            'z-index': '9999',
-            'position': 'relative',
-            'touch-action': 'manipulation',
-            '-webkit-user-select': 'text',
-            '-moz-user-select': 'text',
-            'user-select': 'text',
-            'opacity': '1',
-            'visibility': 'visible'
-          });
-          
-          // Make it focusable
-          $searchField.attr({
-            'tabindex': '0',
-            'readonly': false,
-            'disabled': false
-          });
-          
-          // Remove any event listeners that might block
-          $searchField.off('touchstart touchmove touchend');
-          
-          // Add click handler to ensure it works
-          $searchField.on('click touchstart', function(e) {
-            e.stopPropagation();
-            $(this).focus();
-          });
-          
-          // Force focus after a short delay
-          setTimeout(function() {
-            try {
-              searchInput.focus();
-              // Also trigger a click to ensure mobile browsers recognize it
-              var clickEvent = new MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                view: window
-              });
-              searchInput.dispatchEvent(clickEvent);
-            } catch(err) {
-              console.log('Focus error:', err);
-            }
-          }, 100);
-          
-          // Additional focus attempt
-          setTimeout(function() {
-            if (document.activeElement !== searchInput) {
-              searchInput.focus();
-            }
-          }, 300);
+        // Destroy if already initialized to avoid conflicts
+        if ($langSelect2.hasClass('select2-hidden-accessible')) {
+          $langSelect2.select2('destroy');
         }
-      }, 200);
-    });
-    
-    mobileSelectsInitialized = true;
-  });
-  
-  // Clean up when offcanvas is hidden
-  $('#mobileSidebar').on('hidden.bs.offcanvas', function () {
-    // Don't destroy, just mark as not initialized so it reinitializes next time
-    mobileSelectsInitialized = false;
+        $langSelect2.select2({
+          dropdownParent: $offcanvasBody
+        });
+      }
+      
+      // Sync currency values between desktop and mobile
+      if ($("#currency").length && $currencyMobile.length) {
+        var desktopCurrency = $("#currency").val();
+        if (desktopCurrency && $currencyMobile.val() !== desktopCurrency) {
+          $currencyMobile.val(desktopCurrency);
+          // Update select2 display without triggering change event
+          if ($currencyMobile.hasClass('select2-hidden-accessible')) {
+            var $container = $currencyMobile.next('.select2-container');
+            if ($container.length) {
+              var selectedText = $currencyMobile.find('option:selected').text();
+              $container.find('.select2-selection__rendered').text(selectedText);
+            }
+          }
+        }
+      }
+    }, 50);
   });
 
   jQuery(".js-calendar-date")
