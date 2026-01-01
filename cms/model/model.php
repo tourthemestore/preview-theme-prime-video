@@ -33,12 +33,12 @@ $localIP = getHostByName(getHostName());
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db_name = "tour_operator";
+$db_name = "prime_video";
 
 global $conn;
 $conn = new mysqli($servername, $username, $password, $db_name);
 
-define('BASE_URL', 'http://localhost/theme-classic-static/cms/');
+define('BASE_URL', 'http://localhost/preview-theme-prime-video/cms/');
 // >>>>>>> Stashed changes
 
 mysqli_query($conn, "SET SESSION sql_mode = ''");

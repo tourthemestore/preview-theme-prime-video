@@ -17,7 +17,7 @@ include 'cms/model/app_settings/dropdown_master.php';
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db_name = "tour_operator";
+$db_name = "prime_video";
 
 // $db_name = "tour_operator_theme";
 global $connection;
