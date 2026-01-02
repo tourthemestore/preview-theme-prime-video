@@ -156,8 +156,7 @@
               <i class="fa-solid fa-phone me-2"></i> <?php echo $app_contact_no; ?>
             </a>
             <span class="text-decoration-none d-block fs-8 mb-2 text-white">
-              <i class="fa-solid fa-location-dot me-2"></i> iTours Operator Software
-              B Wings, Teerth Technospace, Mumbai, Highway, Baner, Bengaluru, Pune, Maharashtra 411021
+              <i class="fa-solid fa-location-dot me-2"></i> <?= $app_address ?>
             </span>
           </div>
         </div>
