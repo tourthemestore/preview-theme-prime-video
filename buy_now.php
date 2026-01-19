@@ -40,7 +40,7 @@ $isIndia = ($locationData && $locationData->countryCode === 'IN');
 $currency = $isIndia ? "INR" : "$";
 ?>
 <!-- Theme selection form -->
-<form id="hiddenForm" method="POST" action="https://tourthemestore.com/beta/payments/razor-pay/index.php" style="display:none;">
+<form id="hiddenForm" method="POST" action="https://tourthemestore.com/payments/razor-pay/index.php" style="display:none;">
   <input type="hidden" name="theme" id="theme" value="Prime">
   <input type="hidden" name="banner" id="banner" value="04. Video Banner">
   <input type="hidden" name="currency" id="currency" value="<?php echo $currency; ?>">
