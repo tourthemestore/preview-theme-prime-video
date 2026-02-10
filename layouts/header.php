@@ -16,6 +16,7 @@ while ($row_query = mysqli_fetch_assoc($sq_cms)) {
   );
   array_push($meta_tags, $temp_array1);
 }
+$tidio_chat = $moduleData->getB2cSettings('tidio_chat');
 ?>
 <!DOCTYPE html>
 <html lang="en">

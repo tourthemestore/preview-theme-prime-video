@@ -8,7 +8,7 @@ include "array_column.php";
 $array_master = new array_master();
 $to_currency_rate = $currency;
 
-$social_media = json_decode($moduleData->getB2cSettings(settingsName: 'social_media'), true);;
+$social_media = json_decode($moduleData->getB2cSettings('social_media'), true);
 $google_analytics = $moduleData->getB2cSettings('google_analytics');
 
 $tidio_chat = $moduleData->getB2cSettings('tidio_chat');

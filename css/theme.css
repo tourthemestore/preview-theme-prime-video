@@ -1585,7 +1585,7 @@ Banner Slider
 
 #scrollToTopBtn {
 	position: fixed;
-	bottom: 40px;
+	bottom: 120px;
 	right: 40px;
 	z-index: 99;
 	background-color: #555;

@@ -10,7 +10,7 @@ $socialIcons = isset($themeData) ? $themeData->getSocialIcons() : [];
 
         #scrollToTopBtn {
             position: fixed;
-            bottom: 40px;
+            bottom: 120px;
             right: 40px;
             z-index: 99;
             background-color: #555;
@@ -2304,7 +2304,6 @@ $socialIcons = isset($themeData) ? $themeData->getSocialIcons() : [];
             return metaData.find(item => item.page === pageName);
         };
         const metas = getPageMeta('<?= $_SESSION['page_type'] ?>');
-        console.log(metas);
         if (metas) {
             var meta = document.createElement('meta');
 
@@ -2318,6 +2317,6 @@ $socialIcons = isset($themeData) ? $themeData->getSocialIcons() : [];
             document.getElementsByTagName('head')[0].appendChild(meta2);
         }
     </script>
-
-
-    <!-- <script type="text/javascript" src="<?php echo BASE_URL_B2C ?>js2/scripts.js"></script> -->
+<!-- Tidio Chat -->
+<?php
+echo '<script src="'.$tidio_chat.'"></script>';?>

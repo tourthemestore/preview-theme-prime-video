@@ -594,7 +594,6 @@
     return metaData.find(item => item.page === pageName);
   };
   const metas = getPageMeta('<?= $_SESSION['page_type'] ?>');
-  console.log(metas);
   if (metas) {
     var meta = document.createElement('meta');
 
@@ -608,6 +607,9 @@
     document.getElementsByTagName('head')[0].appendChild(meta2);
   }
 </script>
+<!-- Tidio Chat -->
+<?php
+echo '<script src="'.$tidio_chat.'"></script>';?>
 
 </body>
 
