@@ -400,7 +400,7 @@
                         break;
                     }
                 }
-
+                
                 // Set image_url from JSON data, fallback to default if not found
                 $data[$key]['image_url'] = $imageUrl ?: $this->b2cBaseUrl . 'images/activity_default.png';
 
@@ -408,14 +408,28 @@
                 $tourDatesRows = mysqli_fetch_all($tourDatesQuery, MYSQLI_ASSOC);
 
                 $tourDates = "";
+                $todayTimestamp = strtotime(date('Y-m-d'));
+                $calculatedNights = null;
                 foreach ($tourDatesRows as $tourDate) {
 
                     $from_date = date("d-m-Y", strtotime($tourDate['from_date']));
                     $to_date = date("d-m-Y", strtotime($tourDate['to_date']));
+                    $fromDateTimestamp = strtotime($tourDate['from_date']);
+                    $toDateTimestamp = strtotime($tourDate['to_date']);
+
+                    // Keep same logic as group-tour-detail.php: first upcoming group decides nights.
+                    if ($calculatedNights === null && $todayTimestamp < $fromDateTimestamp) {
+                        $calculatedNights = (int) round(($toDateTimestamp - $fromDateTimestamp) / 86400);
+                    }
 
                     $val = (int)date_diff(date_create(date("d-m-Y")), date_create($to_date))->format("%R%a");
                     if ($val <= 0)  continue; // skipping the ended group tours (only used group quotation)
                     $tourDates .= '<i class="fa-solid fa-calendar-days me-1"></i>' . $from_date . " To " . $to_date . "<br/>";
+                }
+                if ($calculatedNights !== null) {
+                    $data[$key]['total_nights'] = $calculatedNights;
+                } else {
+                    $data[$key]['total_nights'] = (int)$tour['total_nights'];
                 }
 
                 $package_fname = str_replace(' ', '_', $tour['tour_name']);
@@ -433,6 +447,7 @@
 
             return $data;
         }
+
 
         public function getPopularActivities()
         {
@@ -460,7 +475,7 @@
                     if ($act->exc_id == $main['entry_id']) {
 
                         $basic = mysqli_fetch_object(mysqli_query($this->connection, "SELECT adult_cost FROM excursion_master_tariff_basics where exc_id='" . $main['entry_id'] . "' and (from_date <='$date1' and to_date>='$date1') ORDER BY entry_id DESC LIMIT 1"));
-
+                        
                         // Check if basic tariff data exists
                         if ($basic && $basic->adult_cost) {
                             // currency conversion for cost
@@ -491,12 +506,13 @@
 
                         $getqueryimage = mysqli_fetch_object(mysqli_query($this->connection, "SELECT image_url FROM excursion_master_images where exc_id='" . $main['entry_id'] . "' ORDER BY entry_id DESC LIMIT 1"));
 
+
                         $main['basics'] = $basic;
                         $main['images'] = $imagesdata;
                         $imgUrl = (!empty($getqueryimage->image_url)) ? "cms/" . $getqueryimage->image_url : $this->b2cBaseUrl . 'images/activity_default.png';
                         $main['main_img_url'] = $this->filterImgUrl($imgUrl);
 
-                        $datacity = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM city_master where city_id ='" . $main['city_id'] . "'"));
+                        $datacity = mysqli_fetch_array(mysqli_query($this->connection, "SELECT * FROM  city_master where city_id ='" . $main['city_id'] . "'"));
 
                         $main['city_details'] =  [
                             'city_id' => $datacity['city_id'],
@@ -511,6 +527,7 @@
             }
             return $selectedActivities;
         }
+
 
         private function filterImgUrl($imgUrlMain)
         {
@@ -709,14 +726,11 @@
 
         public function convertCurrency($amountInInr, $toCurrencyId)
         {
-            $amountInInr = (float)$amountInInr;
-            $toCurrencyId = (int)$toCurrencyId;
-
             $query = mysqli_query($this->connection, "SELECT * FROM roe_master where currency_id = $toCurrencyId");
             $row = mysqli_fetch_assoc($query);
             if ($row && $row['currency_rate']) {
-                $currencyRate = (float)$row['currency_rate'];
-                $newValue = number_format(floor($amountInInr * $currencyRate));
+
+                $newValue = number_format(floor($amountInInr * $row['currency_rate']));
                 return $this->getCurrencySymbol($toCurrencyId) . ' ' . $newValue;
             }
 

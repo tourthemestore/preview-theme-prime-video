@@ -53,14 +53,31 @@ class ModuleData
         $query = mysqli_query($this->connection, "SELECT gallery FROM `b2c_settings`");
         $results = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
-        $galleryImages = $results['gallery'] ? json_decode($results['gallery'], true) : [];
+        $galleryImages = [];
+        if (!empty($results['gallery'])) {
+            $decoded = json_decode($results['gallery'], true);
+            if (is_array($decoded)) {
+                $galleryImages = $decoded;
+            }
+        }
 
         $galleryData = [];
+        if (empty($galleryImages)) {
+            return $galleryData;
+        }
+
+        // Keep only valid rows that have destination and image fields.
+        $galleryImages = array_values(array_filter($galleryImages, function ($item) {
+            return is_array($item) && isset($item['dest_id']) && isset($item['image_url']);
+        }));
+        if (empty($galleryImages)) {
+            return $galleryData;
+        }
+
         $dest_ids = array_column($galleryImages, 'dest_id');
         if (empty($dest_ids)) {
             return $galleryData; // Return empty array if no destination IDs are found
         }
-
         $ids_str = implode(',', array_map('intval', $dest_ids));
         $sql = mysqli_query($this->connection, "SELECT dest_id, dest_name FROM destination_master WHERE dest_id IN ($ids_str) ORDER BY FIELD(dest_id, $ids_str)");
         $resultsData = mysqli_fetch_all($sql, MYSQLI_ASSOC);

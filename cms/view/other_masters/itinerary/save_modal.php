@@ -185,6 +185,7 @@ function itinerary_form_csv_save(){
         data:{itinerary_csv_dir : itinerary_csv_dir },
         success:function(result){
             var table = document.getElementById("default_program_list");
+            console.log(result);
             $('#itinerary_html').html(result);
             var itinerary_arr = JSON.parse($('#itinerary_arr').val());
 

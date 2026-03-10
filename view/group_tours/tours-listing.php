@@ -660,9 +660,9 @@ $total_pax = intval($adults_count) + intval($child_wocount) + intval($cwb_count)
       $all_costs_array = array();
       $total_nights_array = array();
       if (!$tour_id) {
-        $query = "SELECT * FROM tour_master WHERE dest_id = '$dest_id'";
+        $query = "SELECT * FROM tour_master WHERE dest_id = '$dest_id' and active_flag = 'Active'";
       } else {
-        $query = "SELECT * FROM tour_master WHERE tour_id = '$tour_id'";
+        $query = "SELECT * FROM tour_master WHERE tour_id = '$tour_id' and active_flag = 'Active'";
       }
       $sq_query = mysqlQuery($query);
       while (($row_query  = mysqli_fetch_assoc($sq_query))) {
@@ -868,7 +868,7 @@ $total_pax = intval($adults_count) + intval($child_wocount) + intval($cwb_count)
           $infant_cost_total = 0;
           $sp_cost_total = 0;
           if ($total_pax == 1) {
-            $sp_cost_total = $single_person_cost;
+            $sp_cost_total = (float)($adult_cost);
           } else {
             $adult_cost_total = intval($adults_count) * (float)($adult_cost);
             $child_without_cost_total = intval($child_wocount) * (float)($child_without_cost);
