@@ -24,8 +24,16 @@ $sq_curr = mysqli_fetch_assoc(mysqlQuery("select * from currency_name_master whe
 $sq_destination = mysqli_fetch_assoc(mysqlQuery("select * from destination_master where dest_id='$sq_package[dest_id]'"));
 
 $sq_package_program = mysqlQuery("select * from custom_package_program where package_id = '$package_id'");
-
-$sq_terms_cond = mysqli_fetch_assoc(mysqlQuery("select * from terms_and_conditions where type='Package Quotation' and dest_id='$sq_package[dest_id]' and active_flag ='Active'"));
+$package_dest_id = (int)($sq_package['dest_id'] ?? 0);
+$sq_terms_cond = mysqli_fetch_assoc(mysqlQuery("
+    SELECT *
+    FROM terms_and_conditions
+    WHERE type = 'Package Quotation'
+      AND active_flag = 'Active'
+      AND dest_id IN ($package_dest_id, 0)
+    ORDER BY CASE WHEN dest_id = $package_dest_id THEN 0 ELSE 1 END
+    LIMIT 1
+"));
 
 //Include header
 
