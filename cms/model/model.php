@@ -110,26 +110,24 @@ if ($sq_app_setting_count == 1) {
   $tax_name = $sq_app_setting['tax_name'];
 
   $app_email_id = $sq_app_setting['app_email_id'];
-  if ($session_emp_id == 0) {
-    $app_email_id_send = $sq_app_setting['app_email_id'];
-    $app_user_name_send = "Admin";
-    $app_smtp_status = $sq_app_setting['app_smtp_status'];
-    $app_smtp_host = $sq_app_setting['app_smtp_host'];
-    $app_smtp_port = $sq_app_setting['app_smtp_port'];
-    $app_smtp_password = $sq_app_setting['app_smtp_password'];
-    $app_smtp_method = $sq_app_setting['app_smtp_method'];
-    $app_send_contact_no = $sq_app_setting['app_contact_no'];
-  } else {
-    $sq_emp = mysqli_fetch_assoc(mysqli_query($conn, "select * from emp_master where emp_id='$session_emp_id'"));
+  $sq_emp = mysqli_fetch_assoc(mysqli_query($conn, "select * from emp_master where emp_id='1'"));
+
     $app_email_id_send = $sq_emp['email_id'];
+
     $app_user_name_send = $sq_emp['first_name'];
+
     $app_smtp_status = $sq_emp['app_smtp_status'];
+
     $app_smtp_host = $sq_emp['app_smtp_host'];
+
     $app_smtp_port = $sq_emp['app_smtp_port'];
+
     $app_smtp_password = $sq_emp['app_smtp_password'];
+
     $app_smtp_method = $sq_emp['app_smtp_method'];
+
     $app_send_contact_no = $sq_emp['mobile_no'];
-  }
+ 
   $app_cancel_pdf = $sq_app_setting['policy_url'];
   $app_credit_charge = $sq_app_setting['credit_card_charges'];
   $_SESSION['unique_receipt_id'] = $app_version . "/";
