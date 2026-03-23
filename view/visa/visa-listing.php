@@ -151,6 +151,9 @@ if ($country_id != '') {
                             "documents" => $row_visa['list_of_documents'],
                             "upload_url1" => $row_visa['upload_url'],
                             "upload_url2" => $row_visa['upload_url2'],
+                            "upload_url3" => $row_visa['upload_url3'],
+                            "upload_url4" => $row_visa['upload_url4'],
+                            "upload_url5" => $row_visa['upload_url5'],
                         ));
                     }
                     // Only add country if it has at least one visa
