@@ -248,7 +248,10 @@
                         $file_name = 'package_tours/' . $package_fname . '-' . $data['package_id'] . '.php';
 
                         $data['file_name_url'] = $file_name;
-                        $data['main_img_url'] = $destination->url;
+                        $data['main_img_url'] = $this->resolvePublicImageUrl(
+                            isset($destination->url) ? $destination->url : '',
+                            $this->b2cBaseUrl . 'images/destination-card-1.png'
+                        );
                         $data['currency'] = $currency_logo_d;
 
                         $resultdest = mysqli_query($this->connection, "SELECT * FROM destination_master where dest_id=$destid");
@@ -401,8 +404,11 @@
                     }
                 }
                 
-                // Set image_url from JSON data, fallback to default if not found
-                $data[$key]['image_url'] = $imageUrl ?: $this->b2cBaseUrl . 'images/activity_default.png';
+                // JSON may store CMS relative path or full cloud URL — normalize for B2C src
+                $data[$key]['image_url'] = $this->resolvePublicImageUrl(
+                    $imageUrl,
+                    $this->b2cBaseUrl . 'images/activity_default.png'
+                );
 
                 $tourDatesQuery = mysqli_query($this->connection, "SELECT from_date, to_date FROM tour_groups WHERE status ='Active'  AND tour_id = '" . $tour['tour_id'] . "' ORDER BY group_id ");
                 $tourDatesRows = mysqli_fetch_all($tourDatesQuery, MYSQLI_ASSOC);
@@ -528,6 +534,25 @@
             return $selectedActivities;
         }
 
+        /**
+         * CMS/B2C image URL: absolute http(s) URLs unchanged; relative paths (e.g. ../../../uploads/...)
+         * become full URLs under crmBaseUrl, same as banner images.
+         */
+        public function resolvePublicImageUrl($url, $defaultFallback = '')
+        {
+            $url = is_string($url) ? trim($url) : '';
+            if ($url === '') {
+                return $defaultFallback;
+            }
+            if (preg_match('#^https?://#i', $url)) {
+                return $url;
+            }
+            $path = $this->filterImgUrl($url);
+            if ($path === 0 || $path === '') {
+                return $defaultFallback;
+            }
+            return $this->crmBaseUrl . ltrim((string) $path, '/');
+        }
 
         private function filterImgUrl($imgUrlMain)
         {
