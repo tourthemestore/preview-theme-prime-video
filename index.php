@@ -129,7 +129,8 @@ include 'layouts/header.php'; //Include header
                 role="tabpanel"
                 aria-labelledby="flight-tab"
                 tabindex="0">
-                <?php //include 'view/flight/flight-search.php'; ?>
+                <?php //include 'view/flight/flight-search.php'; 
+                ?>
               </div> -->
               <!-- ***** Flight End ***** -->
 
@@ -517,7 +518,7 @@ if ($recommendedHotels && count($recommendedHotels) > 0) {
                               <script>
                                 setTimeout(function() {
                                   var ameities = getObjectsData(amenities, 'name', '<?php echo $items[0]; ?>');
-                                  document.getElementById("amenity1<?= $hotel['hotel_id']; ?>").src = 'cms/Tours_B2B/images/amenities/' + ameities[0]['image'];
+                                  document.getElementById("amenity1<?= $hotel['hotel_id']; ?>").src = 'crm/Tours_B2B/images/amenities/' + ameities[0]['image'];
                                 }, 5000);
                               </script>
                               <div class="itinerary type-2 text-center d-flex flex-column gap-2">
@@ -533,7 +534,7 @@ if ($recommendedHotels && count($recommendedHotels) > 0) {
                               <script>
                                 setTimeout(function() {
                                   var ameities2 = getObjectsData(amenities, 'name', '<?php echo $items[1]; ?>');
-                                  document.getElementById("amenity2<?= $hotel['hotel_id']; ?>").src = 'cms/Tours_B2B/images/amenities/' + ameities2[0]['image'];
+                                  document.getElementById("amenity2<?= $hotel['hotel_id']; ?>").src = 'crm/Tours_B2B/images/amenities/' + ameities2[0]['image'];
                                 }, 5000);
                               </script>
                             <?php }
@@ -551,7 +552,7 @@ if ($recommendedHotels && count($recommendedHotels) > 0) {
                               <script>
                                 setTimeout(function() {
                                   var ameities3 = getObjectsData(amenities, 'name', '<?php echo $items[2]; ?>');
-                                  document.getElementById("amenity3<?= $hotel['hotel_id']; ?>").src = 'cms/Tours_B2B/images/amenities/' + ameities3[0]['image'];
+                                  document.getElementById("amenity3<?= $hotel['hotel_id']; ?>").src = 'crm/Tours_B2B/images/amenities/' + ameities3[0]['image'];
                                 }, 5000);
                               </script>
                             <?php }
@@ -732,7 +733,7 @@ $testimonials = $themeData->getCustomerTestimonials(10);
                   <div class="card-wrapper-head">
                     <?php $cleanPath = str_replace('../../../', '/', $testimonial['image']); ?>
                     <img
-                      src="<?= 'cms/' . $cleanPath; ?>"
+                      src="<?= 'crm/' . $cleanPath; ?>"
                       alt="photo"
                       height="150"
                       width="150" />
@@ -883,7 +884,7 @@ if (count($team_array) > 0) {
               $i++;
               if ($team['image']) {
                 $cleanPath = str_replace('../../../', '/', $team['image']);
-                $cleanPath = "cms/" . $cleanPath;
+                $cleanPath = "crm/" . $cleanPath;
               } else {
                 $cleanPath = './images/user_photo_1.webp';
               } ?>
@@ -924,7 +925,7 @@ if (count($team_array) > 0) {
       ?>
         <div class="card-image">
           <!-- <a id="lightGalleryImage" class="light-gallery-item" title="<?= $item['dest_name']; ?>"> -->
-            <img src="<?= $item['image_url'] ?>" alt="photo" class="img-fluid" style="height: 168px;;" title="<?= $item['dest_name']; ?>" />
+          <img src="<?= $item['image_url'] ?>" alt="photo" class="img-fluid" style="height: 168px;;" title="<?= $item['dest_name']; ?>" />
           <!-- </a> -->
         </div>
       <?php } ?>

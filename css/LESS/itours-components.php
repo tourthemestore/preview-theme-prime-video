@@ -1,5 +1,5 @@
 <?php
-include '../../cms/model/model.php';
+include '../../crm/model/model.php';
 $data = mysqli_fetch_array(mysqlQuery('SELECT * FROM `b2c_color_scheme`'));
 if (!empty($data)) {
   $btnColor = $data['button_color'];
