@@ -623,3 +623,9 @@ $tidio_chat = $moduleData->getB2cSettings('tidio_chat');
     </div>
   </header>
   <!-- ***** Mobile Header End ***** -->
+
+  <script>
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+</script>
