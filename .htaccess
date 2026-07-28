@@ -1,0 +1,22 @@
+RewriteEngine On
+
+Options +FollowSymLinks -MultiViews
+
+RewriteBase /preview-theme-prime-video/
+
+# Skip existing files/directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Group Tour
+RewriteRule ^group-tour/([a-zA-Z0-9-]+)/?$ group-tour-detail.php?slug=$1 [L,QSA]
+
+# FIT Package
+RewriteRule ^([a-zA-Z0-9-]+)/?$ tour-details.php?slug=$1 [L,QSA]
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(less)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
